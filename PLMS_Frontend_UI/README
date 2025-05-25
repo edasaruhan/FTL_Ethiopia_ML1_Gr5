@@ -1,0 +1,76 @@
+PLMS FRONTEND IMPLEMENTATION (by Mekdes)
+========================================
+
+FILE STRUCTURE & PURPOSE
+-----------------------
+Frontend/
+├── templates/
+│   ├── base.html           # Base template with navbar, CSS, JS
+│   ├── home.html           # Landing page with auth buttons
+│   ├── predict.html        # Prediction form and results display
+│   ├── login.html         # User login form
+│   ├── signup.html       # User registration form  
+│       
+├── forms.py               # Django form definitions
+├── views.py               # View logic and API integration points
+└── urls.py                # URL routing
+
+KEY IMPLEMENTATIONS
+------------------
+1. USER AUTHENTICATION:
+   - Complete login/signup/logout flow
+   - Protected /predict route (@login_required)
+   - Session management
+
+2. PREDICTION FORM:
+   - Form fields with validation:
+     * Age (1-120)
+     * Internet Access (Yes/No)
+     * Entertainment Hours daily (0-24)
+   - Responsive design
+   - Error handling
+
+3. NAVIGATION:
+   - Dynamic navbar changes based on auth state
+   - All links properly connected
+
+BACKEND INTEGRATION POINTS (FOR MUSSIE)
+--------------------------------------
+1. API ENDPOINT CONNECTION:
+   Location: Frontend/views.py - predict_view()
+   
+   # TODO: MUSSIE - REPLACE THIS WITH ACTUAL API CALL
+   # Currently returns dummy response:
+   prediction = "Prediction will appear here (replace with API response)"
+   
+   Expected API Requirements:
+   - Accepts: {'age':int, 'internet_access':str, 'entertainment_hours':float}
+   - Returns: Prediction string/JSON
+   - Authentication: Uses session auth
+
+2. DATA LOGGING:
+   - All form submissions already captured in Django
+   - Add ML-specific logging in API view
+
+HOW TO CONTINUE DEVELOPMENT
+--------------------------
+1. For Yordanos (DevOps):
+   - Production settings prepared in settings.py
+   - Static files configured
+   
+   
+
+TESTING INSTRUCTIONS
+-------------------
+1. Test Cases Verified:
+   - Form validation
+   - Auth flow
+   - Responsive layouts
+
+2. Remaining Tests Needed:
+   - Actual API integration (Mussie)
+   - Load testing (Yordanos)
+   - Cross-browser checks (Liya)
+ 
+3. Run server:
+   - Use `python manage.py runserver` to start the server

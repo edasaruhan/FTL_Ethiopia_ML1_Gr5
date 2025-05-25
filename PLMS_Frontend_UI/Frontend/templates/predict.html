@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Digital Engagement Predictor{% endblock %}
+
+{% block extra_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .prediction-card {
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        .prediction-card:hover {
+            transform: translateY(-5px);
+        }
+        .form-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            padding: 20px;
+        }
+        .btn-predict {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            padding: 10px 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .btn-predict:hover {
+            opacity: 0.9;
+        }
+        .result-container {
+            background-color: #f1f8ff;
+            border-left: 4px solid #2575fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .form-control, .form-select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card prediction-card mb-5">
+                    <div class="form-header text-center">
+                        <h2 class="mb-0">Digital Engagement Predictor</h2>
+                        <p class="mb-0">Enter your details to get predictions about your digital behavior</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <div class="row g-3">
+                                <!-- Age Field -->
+                                <div class="col-md-6">
+                                    <label for="id_age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" name="age" id="id_age" 
+                                           required min="1" max="120" value="{{ form.age.value|default_if_none:'' }}">
+                                    <div class="invalid-feedback">
+                                        Please provide a valid age (1-120).
+                                    </div>
+                                </div>
+                                
+                                <!-- Internet Access Field -->
+                                 <div class="col-md-6">
+                                    <label for="id_internet_access" class="form-label">Internet Access</label>
+                                        {{ form.internet_access }}
+                                 <div class="invalid-feedback">
+                                 Please select your internet access status.
+                          </div>
+                        </div>
+                                
+                                <!-- Entertainment Hours Field -->
+                                <div class="col-12">
+                                    <label for="id_entertainment_hours" class="form-label">Daily Entertainment Hours</label>
+                                    <input type="number" step="0.1" class="form-control" name="entertainment_hours" 
+                                           id="id_entertainment_hours" required min="0" max="24" 
+                                           value="{{ form.entertainment_hours.value|default_if_none:'' }}">
+                                    <div class="invalid-feedback">
+                                        Please provide valid hours (0-24).
+                                    </div>
+                                    <div class="form-text">Enter how many hours you spend on digital entertainment daily</div>
+                                </div>
+                                
+                                <div class="col-12 text-center mt-4">
+                                    <button class="btn btn-predict btn-lg text-white" type="submit">
+                                        <i class="bi bi-graph-up me-2"></i> Get Prediction
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Result display -->
+                        {% if prediction %}
+                        <div class="result-container mt-4">
+                            <h5 class="text-primary mb-3"><i class="bi bi-lightbulb me-2"></i> Prediction Result</h5>
+                            <p class="lead">{{ prediction }}</p>
+                            <hr>
+                            <small class="text-muted">Note: This is a sample prediction. Real API integration will be implemented soon.</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="text-center text-muted small">
+                    <p>All interactions are logged for research purposes. Your data is anonymized and secure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+            
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+            
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+    {% endblock %}

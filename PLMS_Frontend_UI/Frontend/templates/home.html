@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-4 mb-4">Welcome to Personalized learning managment tool</h1>
+            <p class="lead">a smart tool designed to give you insights into your digital behavior patterns and how they impact your learning journey. PLMS analyzes your daily habits, screen time, and internet access to predict your academic performance and recommend improvements. <b>Please sign up first to get your prediction and personalized insights</b>.
+
+</p>
+            {% if not user.is_authenticated %}
+                <div class="mt-4">
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg mx-2">Login</a>
+                    <a href="{% url 'signup' %}" class="btn btn-outline-primary btn-lg mx-2">Sign Up</a>
+                </div>
+            {% else %}
+                <div class="mt-4">
+                    <a href="{% url 'predict' %}" class="btn btn-primary btn-lg">Go to Predictor</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
